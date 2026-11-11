@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinksWell T-Style Install Training</title>
+<style>
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --surface2:#eef1f6; --ink:#141820; --muted:#5a6372; --line:#dde2ea;
+  --accent:#0b4fd6; --accent-soft:#e6eefd; --accent-ink:#ffffff;
+  --warn:#9a4a07; --warn-bg:#fff3e2; --ok:#127a3a; --ok-bg:#e7f6ec; --bad:#b4231c; --bad-bg:#fdecea;
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e1117; --surface:#161a22; --surface2:#1d222c; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2a303b;
+    --accent:#6a95ff; --accent-soft:#1c2740; --accent-ink:#0e1117;
+    --warn:#f2b056; --warn-bg:#2a2112; --ok:#5fd18a; --ok-bg:#12261a; --bad:#ff8077; --bad-bg:#2c1615;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+header{position:sticky;top:0;z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
+.hbar{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.brand{font-weight:700;font-size:15px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.menu-btn{border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+.progress{height:4px;background:var(--surface2)}
+.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+#toc{display:none;max-width:900px;margin:0 auto;padding:6px 16px 12px}
+#toc.open{display:block}
+#toc button{display:flex;width:100%;text-align:left;gap:10px;align-items:center;border:0;background:none;color:var(--ink);font:inherit;font-size:15px;padding:9px 6px;border-radius:8px;cursor:pointer}
+#toc button:hover{background:var(--surface2)}
+#toc button.cur{background:var(--accent-soft);font-weight:600}
+#toc .dot{width:22px;height:22px;flex:none;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px}
+#toc .seen .dot{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+main{max-width:900px;margin:0 auto;padding:20px 16px 110px}
+.page{display:none}
+.page.active{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--accent);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px}
+h1{font-size:26px;line-height:1.2;margin:0 0 12px}
+h2{font-size:19px;margin:28px 0 10px}
+h3{font-size:16px;margin:0 0 6px}
+p{margin:0 0 12px}
+.lead{font-size:17px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid .card{margin:0}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--surface2);color:var(--muted);margin:0 4px 6px 0}
+.tag.blue{background:var(--accent-soft);color:var(--accent)}
+ul,ol{margin:0 0 12px;padding-left:22px}
+li{margin:0 0 6px}
+.callout{border-radius:var(--radius);padding:14px 16px;margin:0 0 14px;border-left:4px solid}
+.callout.warn{background:var(--warn-bg);border-color:var(--warn)}
+.callout.warn b:first-child{color:var(--warn)}
+.callout.info{background:var(--accent-soft);border-color:var(--accent)}
+.callout.ok{background:var(--ok-bg);border-color:var(--ok)}
+.tbl{overflow-x:auto;margin:0 0 14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-weight:600}
+tr:last-child td{border-bottom:0}
+.steps{list-style:none;padding:0;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:12px 14px 12px 52px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin:0 0 10px}
+.steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:13px}
+.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 14px;overflow-x:auto;white-space:nowrap}
+.check label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.check label:last-child{border-bottom:0}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.kc{background:var(--surface);border:2px solid var(--accent-soft);border-radius:var(--radius);padding:16px;margin:24px 0 12px}
+.kc .eyebrow{margin-bottom:8px}
+.kc .q{font-weight:600;margin-bottom:10px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 8px;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.right{background:var(--ok-bg);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.fb{display:none;font-size:15px;padding:10px 12px;border-radius:10px;margin-top:4px}
+.fb.show{display:block}
+.fb.good{background:var(--ok-bg)}
+.fb.miss{background:var(--bad-bg)}
+.qitem{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:0 0 12px}
+.qitem .q{font-weight:600;margin-bottom:8px}
+.qitem label{display:flex;gap:10px;align-items:flex-start;padding:7px 4px;cursor:pointer;border-radius:8px}
+.qitem label:hover{background:var(--surface2)}
+.qitem input{margin-top:4px;accent-color:var(--accent);width:17px;height:17px;flex:none}
+.qitem.missed{border-color:var(--bad)}
+.qitem.unanswered{border-color:var(--warn)}
+.btn{font:inherit;font-weight:600;border-radius:10px;padding:11px 18px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.4;cursor:default}
+.score{font-size:44px;font-weight:800;line-height:1;margin:6px 0}
+footer{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);z-index:10}
+.fbar{max-width:900px;margin:0 auto;padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:10px}
+.fbar .count{flex:1;text-align:center;color:var(--muted);font-size:14px}
+.mode{font-size:12px;color:var(--muted);text-align:center;padding:4px}
+
+/* ---- video placeholders (mockup) ---- */
+.vid{display:grid;grid-template-columns:minmax(160px,240px) 1fr;gap:14px;align-items:center;border:2px dashed #d9480f;background:#fff4e6;border-radius:12px;padding:12px;margin:14px 0}
+@media (prefers-color-scheme: dark){.vid{background:#2b1d10;border-color:#ff922b}}
+.vid-screen{position:relative;aspect-ratio:16/9;background:#1d252c;border-radius:8px;display:grid;place-items:center}
+.vid-play{width:46px;height:46px;border-radius:50%;background:#fff;color:#1d252c;display:grid;place-items:center;font-size:18px;padding-left:3px}
+.vid-badge{position:absolute;left:8px;top:8px;background:#d9480f;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;letter-spacing:.03em}
+.vid-meta b{display:block;margin-bottom:4px}
+.vid-meta p{font-size:14px;margin:0 0 6px;color:var(--muted)}
+@media (max-width:560px){.vid{grid-template-columns:1fr}}
+body.hide-vid .vid{display:none}
+.vbtn{border:1px solid #d9480f;background:#fff4e6;color:#a8380b;border-radius:8px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.shot td:first-child{font-weight:700;white-space:nowrap}
+.goto{border:0;background:none;color:var(--accent);font:inherit;cursor:pointer;text-decoration:underline;padding:0}
+.grid .card .tbl table{font-size:13px}
+.grid .card .tbl td,.grid .card .tbl th{padding:6px 7px}
+.cov-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.cov-grid .tbl{overflow-x:visible;border:0;margin:6px 0 0;background:transparent}
+.cov-grid table{width:100%;min-width:0!important;table-layout:fixed;font-size:13px}
+.cov-grid th,.cov-grid td{padding:6px 5px;white-space:normal;word-break:normal;overflow-wrap:anywhere}
+.cov-grid th:first-child,.cov-grid td:first-child{width:40%}
+.cov-grid td:not(:first-child),.cov-grid th:not(:first-child){font-variant-numeric:tabular-nums;font-size:12px}
+.prod-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:640px){.prod-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbar">
+    <div class="brand">LinksWell T-Style Install Training <span style="color:#d9480f">· MOCKUP</span><small>Autotech certification · Ford F-150 &amp; GM Silverado/Sierra</small></div>
+    <button class="vbtn" id="vidBtn" type="button">Hide video spots</button>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false">Modules</button>
+  </div>
+  <div class="progress"><span id="prog"></span></div>
+  <nav id="toc" aria-label="Course modules"></nav>
+</header>
+
+<main id="pages">
+
+<!-- ============ WELCOME ============ -->
+<section class="page" data-title="Welcome">
+  <p class="eyebrow">Course overview</p>
+  <h1>LinksWell T-Style: lineup &amp; installation</h1>
+  <p class="lead">Learn the LinksWell radios we sell at Best Buy, how to match the right radio and add-ons to the customer's vehicle, and how to install and set it up.</p>
+
+  <div class="grid">
+    <div class="card"><span class="tag blue">Modules 1–3</span><h3>Sell it right</h3><p>Product lineup, vehicle coverage and add-ons by vehicle.</p></div>
+    <div class="card"><span class="tag blue">Modules 4–5</span><h3>GM installs</h3><p>Silverado / Sierra 2014–18 and 2019–23.</p></div>
+    <div class="card"><span class="tag blue">Modules 6–9</span><h3>Ford installs</h3><p>F-150 pre-install audit, disassembly, wiring and setup.</p></div>
+  </div>
+  <div style="height:12px"></div>
+  <div class="grid">
+    <div class="card"><span class="tag">Knowledge checks</span><p>Quick check at the end of each module.</p></div>
+    <div class="card"><span class="tag">Bay reference</span><p>One-page troubleshooting table for the job.</p></div>
+    <div class="card"><span class="tag">Final assessment</span><p>25 questions. 80% to pass. Retakes allowed.</p></div>
+  </div>
+
+  <div class="callout info" style="margin-top:14px"><b>Always check the kit's install guide.</b> Harnesses, connectors and menus can change by vehicle, model year and software version.</div>
+</section>
+
+<section class="page" data-title="1 · Product lineup">
+  <p class="eyebrow">Module 1</p>
+  <h1>The LinksWell lineup at Best Buy</h1>
+  <p class="lead">Three vehicle-specific T-Style radios plus one universal double DIN. The real differences are screen, price, camera support and connectivity.</p>
+
+  <div class="grid prod-grid">
+    <div class="card">
+      <span class="tag blue">Flagship</span><span class="tag">$1,995.99</span><span class="tag">9 SKUs</span><span class="tag">2-yr warranty</span>
+      <h3>T-Style XL · 15.6"</h3>
+      <ul>
+        <li>Custom "cove" dash replacement with a floating-style screen.</li>
+        <li>Glass-mounted multi-function knob: turn for volume, press to mute. Swipe the bar behind the knob left for climate; then press to switch temp/fan and turn to adjust.</li>
+        <li>3 camera inputs; keeps factory reverse and 360 (with adapter); multi-cam option up to 6.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag blue">OEM look</span><span class="tag">$1,649.99</span><span class="tag">16 SKUs</span><span class="tag">2-yr warranty</span>
+      <h3>T-Style Gen 6 · 12.1"</h3>
+      <ul>
+        <li>Replaces only the center insert for a flush, factory finish.</li>
+        <li>Optional SIM slot for data without Wi-Fi.</li>
+        <li>3 camera inputs (front, rear, side); HDMI input with 6695662.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag blue">Entry level</span><span class="tag">$794.99&ndash;$949.99</span><span class="tag">8 SKUs</span><span class="tag">1-yr warranty</span>
+      <h3>T-Style LITE 2 · 12.1"</h3>
+      <ul>
+        <li>Lowest price; aptX Bluetooth; wireless CarPlay/Android Auto.</li>
+        <li>Google Play apps (YouTube, Netflix), CarPlay homepage widget, split screen.</li>
+        <li>Keeps factory reverse; adds front camera. Lower processor and memory tier.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag blue">Universal</span><span class="tag">$799.99</span><span class="tag">SKU 6695601</span>
+      <h3>13.3" Double DIN Android</h3>
+      <ul>
+        <li>Motorized screen rotates vertical or horizontal.</li>
+        <li>For vehicles without a T-Style option; uses a standard double-DIN dash kit and keeps steering wheel controls.</li>
+        <li>The area in front of the radio must be clear so the screen can rotate.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="vid" data-vid="1" data-title="LinksWell XL overview" data-type="Product walkaround" data-len="2 min" data-pri="High" data-desc="Product overview of the XL powered on: 15.6&quot; floating screen and cove dash, multi-function knob (volume, mute, climate), wireless CarPlay/Android Auto, camera views and SIM/Wi-Fi.">
+  <div class="vid-screen"><span class="vid-play">&#9654;</span><span class="vid-badge">VIDEO 01 · High priority</span></div>
+  <div class="vid-meta"><b>LinksWell XL overview</b><p>Product overview of the XL powered on: 15.6" floating screen and cove dash, multi-function knob (volume, mute, climate), wireless CarPlay/Android Auto, camera views and SIM/Wi-Fi.</p><span class="tag">Product walkaround</span><span class="tag">~2 min</span></div>
+</div>
+
+  <h2>Side by side</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>XL</th><th>Gen 6</th><th>LITE 2</th><th>13.3" Double DIN</th></tr>
+    <tr><td>Screen</td><td>15.6" floating</td><td>12.1" flush OEM insert</td><td>12.1"</td><td>13.3" motorized</td></tr>
+    <tr><td>Fit</td><td>Vehicle-specific</td><td>Vehicle-specific</td><td>Vehicle-specific</td><td>Universal</td></tr>
+    <tr><td>Android / memory</td><td>Android 11, 8GB / 128GB</td><td>Android 11, 4GB / 64GB</td><td>Android 13, 4GB / 64GB</td><td>Android, Google Play</td></tr>
+    <tr><td>Built-in amp</td><td>4 x 50W</td><td>4 x 50W</td><td>4 x 45W</td><td>3 RCA preouts</td></tr>
+    <tr><td>CarPlay / Android Auto</td><td>Wireless CarPlay; wired or wireless AA</td><td>Wireless CarPlay; wired or wireless AA</td><td>Wireless</td><td>Supported; wireless dongle 6695633</td></tr>
+    <tr><td>Internet</td><td>4G LTE SIM + Wi-Fi</td><td>4G LTE SIM + Wi-Fi</td><td>Wi-Fi</td><td>&mdash;</td></tr>
+    <tr><td>Physical knob</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+    <tr><td>Warranty</td><td>2 years</td><td>2 years</td><td>1 year</td><td>&mdash;</td></tr>
+  </table></div>
+  <p style="font-size:13px;color:var(--muted)">Features can vary by vehicle. Check the product page for the customer's vehicle.</p>
+
+  <h2>Recommending the right unit</h2>
+  <ul>
+    <li><b>Wants the biggest screen and a physical knob, or has a factory 360 camera?</b> XL.</li>
+    <li><b>Wants top performance but a factory look?</b> Gen 6.</li>
+    <li><b>Wants the lowest price and only needs the factory reverse camera?</b> LITE 2.</li>
+    <li><b>No T-Style radio for the vehicle?</b> 13.3" Double DIN.</li>
+  </ul>
+  <div class="callout info"><b>Install service.</b> These are vehicle-specific, dash-integrated radios. Schedule the <b>Advanced In-Dash Video Level 2 (SKU 4660245)</b>.</div>
+
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">What do the XL and Gen 6 share?</p>
+    <button class="opt">Screen size and the multi-function knob</button>
+    <button class="opt">4G SIM slot, 3 camera inputs, 2-year warranty</button>
+    <button class="opt">Lowest price and aptX Bluetooth</button>
+    <div class="fb">Both have a 4G LTE SIM slot, 3 camera inputs and a 2-year warranty. Only the XL has the 15.6" screen and knob.</div>
+  </div>
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">Which install SKU do you schedule for a LinksWell T-Style radio?</p>
+    <button class="opt">Standard In-Dash Install</button>
+    <button class="opt">Advanced In-Dash Video Level 2 (SKU 4660245)</button>
+    <button class="opt">Remote Start Install</button>
+    <div class="fb">These are vehicle-specific, dash-integrated radios. Schedule SKU 4660245.</div>
+  </div>
+</section>
+
+<section class="page" data-title="2 · Vehicle coverage">
+  <p class="eyebrow">Module 2</p>
+  <h1>Vehicle coverage</h1>
+  <p class="lead">Find the customer's vehicle, then pick the radio SKU. A dash (&mdash;) means that radio isn't offered for that vehicle.</p>
+
+  <div class="grid cov-grid">
+    <div class="card">
+      <span class="tag blue">Ford</span>
+      <h3>Ford</h3>
+      <div class="tbl"><table>
+        <tr><th>Vehicle</th><th>Gen 6</th><th>XL</th><th>LITE 2</th></tr>
+        <tr><td>F-150 (15-20) / Super Duty (17-22)*</td><td>6695636</td><td>6695632</td><td>6695647</td></tr><tr><td>F-150 (13-14)</td><td>6695645</td><td>&mdash;</td><td>6695628</td></tr><tr><td>Ranger (18-23)</td><td>6695621</td><td>&mdash;</td><td>&mdash;</td></tr><tr><td>Expedition (18-21)</td><td>6695666</td><td>6695603</td><td>&mdash;</td></tr><tr><td>Bronco (20-up)</td><td>6695612</td><td>&mdash;</td><td>&mdash;</td></tr><tr><td>Mustang (10-14)</td><td>6695648</td><td>&mdash;</td><td>&mdash;</td></tr><tr><td>Mustang (15-23)</td><td>6695653</td><td>&mdash;</td><td>6695606</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="tag blue">Chevrolet · GMC · Cadillac</span>
+      <h3>GM</h3>
+      <div class="tbl"><table>
+        <tr><th>Vehicle</th><th>Gen 6</th><th>XL</th><th>LITE 2</th></tr>
+        <tr><td>Silverado/Sierra (14-18)</td><td>6695627</td><td>6695624</td><td>6695655</td></tr><tr><td>Silverado/Sierra (19-23)</td><td>6695618</td><td>6695625</td><td>6695667</td></tr><tr><td>Tahoe/Suburban/Yukon (15-20)</td><td>&mdash;</td><td>6695630</td><td>&mdash;</td></tr><tr><td>Cadillac Escalade (07-14)</td><td>6695607</td><td>&mdash;</td><td>&mdash;</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="tag blue">Ram</span>
+      <h3>Ram</h3>
+      <div class="tbl"><table>
+        <tr><th>Vehicle</th><th>Gen 6</th><th>XL</th><th>LITE 2</th></tr>
+        <tr><td>Ram (13/14-18)</td><td>6695635</td><td>6695640</td><td>6695638</td></tr><tr><td>Ram (19-24)</td><td>6695660</td><td>6695610</td><td>6695616</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="tag blue">Jeep</span>
+      <h3>Jeep</h3>
+      <div class="tbl"><table>
+        <tr><th>Vehicle</th><th>Gen 6</th><th>XL</th><th>LITE 2</th></tr>
+        <tr><td>Wrangler/Gladiator (18-23)</td><td>6695654</td><td>6695669</td><td>&mdash;</td></tr><tr><td>Grand Cherokee (14-21)</td><td>6695639</td><td>&mdash;</td><td>&mdash;</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="tag blue">Toyota</span>
+      <h3>Toyota</h3>
+      <div class="tbl"><table>
+        <tr><th>Vehicle</th><th>Gen 6</th><th>XL</th><th>LITE 2</th></tr>
+        <tr><td>Tundra (14-21/22)</td><td>6695598</td><td>&mdash;</td><td>6695651</td></tr><tr><td>Tacoma (16-23)</td><td>6695642</td><td>&mdash;</td><td>&mdash;</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="tag blue">Universal</span>
+      <h3>Everything else</h3>
+      <ul>
+        <li><b>XL Universal:</b> 6695623 ($1,849.99)</li>
+        <li><b>13.3" Double DIN Android:</b> 6695601</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted)">*The LITE 2 (6695647) also fits 2023 Super Duty.</p>
+
+  <h2>Before you quote</h2>
+  <div class="callout info">Ask about <b>premium audio</b>, <b>factory cameras</b> and <b>trim level</b> first. Those answers decide which add-ons the customer needs (Module 3).</div>
+
+  <div class="kc" data-answer="2">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">A customer has a 2017 Tahoe. Which radio can you offer?</p>
+    <button class="opt">Gen 6</button>
+    <button class="opt">LITE 2</button>
+    <button class="opt">XL (6695630)</button>
+    <div class="fb">The 2015–20 Tahoe/Suburban/Yukon is covered by the XL only.</div>
+  </div>
+</section>
+
+<section class="page" data-title="3 · Add-ons by vehicle">
+  <p class="eyebrow">Module 3</p>
+  <h1>Add-ons by vehicle</h1>
+  <p class="lead">Find the vehicle row, then read across. If the customer has the feature in the column header, add that SKU to the sale.</p>
+
+  <div class="grid">
+    <div class="card"><span class="tag blue">Premium audio</span><p>Factory amplified systems (B&amp;O, Bose) need an adapter or amp replacement, or the speakers won't play correctly.</p></div>
+    <div class="card"><span class="tag blue">Cameras</span><p>Factory 360 and multi-camera setups need a retention module to keep full function.</p></div>
+    <div class="card"><span class="tag blue">Work trucks &amp; base trims</span><p>Base trims often need a power harness, and some need climate retention.</p></div>
+  </div>
+
+  <h2>Add-ons by vehicle</h2>
+  <div class="tbl"><table>
+    <tr><th>Vehicle</th><th>Premium audio</th><th>Cameras</th><th>Work truck / base trim</th><th>Other</th></tr>
+    <tr><td><b>Ford F-150</b></td><td>B&amp;O: 6695611 (Gen 6/XL), 6695665 (LITE 2)</td><td>360: 6695656<br>Multi-cam: 6695644</td><td>&mdash;</td><td>&mdash;</td></tr>
+    <tr><td><b>Ford Super Duty</b></td><td>B&amp;O: 6695609 (Gen 6/XL), 6695663 (LITE 2)</td><td>360: 6695656<br>Multi-cam: 6695644</td><td>Power: 6695596 (Gen 6/XL), 6695661 (LITE 2)</td><td>Climate retention: 6695650</td></tr>
+    <tr><td><b>Ford Ranger</b></td><td>B&amp;O: 6695608</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    <tr><td><b>Silverado/Sierra 14-18</b></td><td>Bose adapter: 6695657</td><td>&mdash;</td><td>GM power harness: 6695599, 6695614</td><td>&mdash;</td></tr>
+    <tr><td><b>Silverado/Sierra 19-23</b></td><td>Bose DSP amp replacement: 6695652</td><td>Backup camera: 6695619</td><td>GM power harness: 6695599, 6695614</td><td>&mdash;</td></tr>
+    <tr><td><b>Ram</b></td><td>&mdash;</td><td>Camera retention: 6695605<br>Camera relocation: 6695617</td><td>Power: 6695626, 6695646</td><td>&mdash;</td></tr>
+    <tr><td><b>Jeep</b></td><td>&mdash;</td><td>Multi-cam: 6695664<br>Camera retention: 6695605</td><td>&mdash;</td><td>Off-road/hybrid: 6695649</td></tr>
+  </table></div>
+  <p style="font-size:13px;color:var(--muted)">The source lists the GM power harnesses and Ford camera modules by make, not by year or model. Confirm fit on the product page.</p>
+
+  <h2>Add-ons by radio</h2>
+  <div class="tbl"><table>
+    <tr><th>Radio</th><th>Add-on</th><th>SKU</th></tr>
+    <tr><td>Gen 6 / XL</td><td>HDMI input</td><td>6695662</td></tr>
+    <tr><td>LITE 2</td><td>USB DVR with driver-assist alerts</td><td>6695615</td></tr>
+    <tr><td>13.3" Double DIN</td><td>Wireless CarPlay/Android Auto dongle</td><td>6695633</td></tr>
+  </table></div>
+
+  <div class="callout warn"><b>Ford callouts</b>
+    <ul>
+      <li>XL radios don't keep Ford SYNC, Trailer Assist or automatic parking. Confirm with the customer before you sell.</li>
+      <li>Factory 360 cameras and 2019+ Raptors need <b>6695656</b> to keep full function. Recommend the Gen 6 or XL, not the LITE 2.</li>
+      <li>Gen 6/XL and LITE 2 use different B&amp;O adapters and Super Duty harnesses. Match the adapter to the radio line.</li>
+      <li>None of these are compatible with Ford fleet radio/AC setups. They may also conflict with other CAN-bus devices like tuners, start-stop bypasses and OBD devices.</li>
+    </ul>
+  </div>
+
+  <h2>Install checklist</h2>
+  <ol>
+    <li>Schedule <b>SKU 4660245</b> (Advanced In-Dash Video Level 2).</li>
+    <li>Download the install manual for the right generation (Gen 6, XL or LITE).</li>
+    <li>Check for <b>firmware updates</b> and <b>T-Style app</b> downloads before you start.</li>
+    <li>Watch the install videos at <a href="https://www.linkswellinc.com/support/" target="_blank" rel="noopener">linkswellinc.com/support</a> if this is your first one.</li>
+  </ol>
+  <div class="callout info"><b>Install support:</b> LinksWell dealer tech line <b>(909) 375-0633</b> (Mon&ndash;Thu 7 AM&ndash;4 PM PST, Fri 7 AM&ndash;3 PM PST), or the <b>Autotech Secret Weapon support team</b>.</div>
+
+  <div class="kc" data-answer="2">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">A customer's F-150 has a factory 360 camera. Which radio do you NOT recommend?</p>
+    <button class="opt">Gen 6</button>
+    <button class="opt">XL</button>
+    <button class="opt">LITE 2</button>
+    <div class="fb">Factory 360 cameras need adapter 6695656. Recommend Gen 6 or XL, not LITE 2.</div>
+  </div>
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">A 2021 Silverado has factory Bose. What add-on do you sell?</p>
+    <button class="opt">Bose adapter 6695657</button>
+    <button class="opt">Bose DSP amp replacement 6695652</button>
+    <button class="opt">B&amp;O harness 6695611</button>
+    <div class="fb">2019–23 GM Bose uses the DSP amp replacement (6695652). 6695657 is for 2014–18.</div>
+  </div>
+</section>
+
+<!-- ============ GM 2014-18 ============ -->
+<section class="page" data-title="4 · Silverado / Sierra 2014–18">
+  <p class="eyebrow">Module 4 · GM</p>
+  <h1>XL install: 2014–2018 Silverado / Sierra</h1>
+  <p class="lead">This generation adds steering wheel control, HMI module, CD bypass and Bose retention steps.</p>
+
+  <div class="card">
+    <h3>Tools &amp; supplies</h3>
+    <ul>
+      <li>7 mm socket with ratchet and extension</li>
+      <li>T15 Torx driver</li>
+      <li>Plastic trim tool and small flathead screwdriver</li>
+      <li>Electrical tape, zip ties, double-sided foam tape</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <b>Airbag safety.</b> When routing the mic up the driver-side A-pillar, zip-tie it along the factory wire loom beneath the side-curtain airbag. Never pull wires across or zip-tie over the airbag module.
+  </div>
+
+  <h2>Section 1: Disassembly &amp; harness prep</h2><div class="vid" data-vid="2" data-title="2014–18 GM: tilt lever, column shroud &amp; SWC T-harness" data-type="Over-the-shoulder close-up" data-len="2 min" data-pri="High" data-desc="Close-up hands-on: releasing the tilt lever clip with a flathead, splitting the shroud, plugging the SWC T-harness inline.">
+  <div class="vid-screen"><span class="vid-play">&#9654;</span><span class="vid-badge">VIDEO 02 · High priority</span></div>
+  <div class="vid-meta"><b>2014–18 GM: tilt lever, column shroud & SWC T-harness</b><p>Close-up hands-on: releasing the tilt lever clip with a flathead, splitting the shroud, plugging the SWC T-harness inline.</p><span class="tag">Over-the-shoulder close-up</span><span class="tag">~2 min</span></div>
+</div>
+  <ol class="steps">
+    <li><b>Tilt lever.</b> Pull the tilt lever straight out. Slip a small flathead into the slot between the retainers, twist gently to release the clip, and pull the lever off.</li>
+    <li><b>Steering column shroud + SWC harness.</b> Remove the underside shroud screws and pry the halves apart at the seam. Disconnect the main column connector and plug the LinksWell steering wheel control (SWC) T-harness inline between the factory plug and harness.</li>
+    <li><b>Microphone.</b> Unclip the driver-side A-pillar trim and peel back the door weatherstrip. Mount the mic near the top of the A-pillar or headliner edge, then route it along the factory loom down into the radio cavity.</li>
+    <li><b>Glove box.</b> Remove the 2 top and 2 bottom inner T15 screws, close the door, then remove the 2 lower T15 screws under the frame. Pull the upper and lower glove box structures to reach the factory <b>HMI module</b> on the right wall.</li>
+  </ol>
+
+  <h2>Section 2: Radio removal &amp; bypass</h2><div class="vid" data-vid="3" data-title="2014–18 GM: HMI module &amp; CD jumper bypass" data-type="Close-up + callout graphics" data-len="2 min" data-pri="High" data-desc="Show the gray camera plug at the HMI module behind the glove box, installing &#x27;To HMI Connect&#x27;, and plugging the CD jumper bypass.">
+  <div class="vid-screen"><span class="vid-play">&#9654;</span><span class="vid-badge">VIDEO 03 · High priority</span></div>
+  <div class="vid-meta"><b>2014–18 GM: HMI module & CD jumper bypass</b><p>Show the gray camera plug at the HMI module behind the glove box, installing 'To HMI Connect', and plugging the CD jumper bypass.</p><span class="tag">Close-up + callout graphics</span><span class="tag">~2 min</span></div>
+</div>
+  <ol class="steps">
+    <li><b>Dash trim and screen.</b> Pry off the bezel around the screen and climate panel and unplug its switches (seat buttons, lower switch panel). Remove the four 7 mm screen screws, unplug it, and remove the screen.</li>
+    <li><b>CD player bypass.</b> Remove the 7 mm screws on the CD player below the screen and unplug its rear harness. Plug the included flat <b>CD jumper bypass harness</b> into the factory plug to keep the vehicle bus intact.</li>
+    <li><b>HMI camera and USB.</b> At the HMI module, unplug the gray camera plug and insert the LinksWell adapter labeled <b>To HMI Connect</b>. Connect the USB extension adapter to the factory USB module. Route both behind the dash into the radio cavity.</li>
+  </ol>
+
+  <div class="callout info">
+    <b>Don't skip the CD bypass.</b> Removing the CD player without the jumper breaks bus continuity. Plug it in even though the CD player isn't going back in.
+  </div>
+
+  <h2>Section 3: Wiring &amp; mounting</h2>
+  <ol class="steps">
+    <li><b>Bose retention (if equipped).</b> Connect the factory speaker harness to the <b>Bose Retention Module</b>. Plug the small 2-pin OnStar chime speaker into the main LinksWell harness. Mount both in the lower dash with foam tape to prevent rattles.</li>
+    <li><b>Antennas.</b> Lay the GPS, Wi-Fi and dual 4G LTE antennas flat on the inner plastic dash structure under the top windshield panel. Secure extra cable.</li>
+    <li><b>Back-panel connections.</b> With the screen face down on a soft pad, connect: dual dark purple LTE, GPS, Wi-Fi, AM/FM antenna adapter; 6-channel RCA (mate <b>Factory Cam In</b> to the HMI video lead); mic jack; main power; SWC lead; and the SIM tray extension routed to the glove box.</li>
+    <li><b>Mount and test.</b> Slide the unit in, guiding extra wire down into the lower cavity. Reinstall the four 7 mm screws. Turn the key ON for the first cold boot and confirm the screen lights up.</li>
+  </ol>
+
+  <h3>Back-panel plug colors</h3><div class="vid" data-vid="4" data-title="XL back-panel connections tour" data-type="Top-down tabletop" data-len="90 sec" data-pri="High" data-desc="Screen face down on a pad: point to each color-coded plug (black cam in, blue GPS, dual purple LTE, etc.) as it&#x27;s connected.">
+  <div class="vid-screen"><span class="vid-play">&#9654;</span><span class="vid-badge">VIDEO 04 · High priority</span></div>
+  <div class="vid-meta"><b>XL back-panel connections tour</b><p>Screen face down on a pad: point to each color-coded plug (black cam in, blue GPS, dual purple LTE, etc.) as it's connected.</p><span class="tag">Top-down tabletop</span><span class="tag">~90 sec</span></div>
+</div>
+  <div class="tbl"><table>
+    <tr><th>Plug color</th><th>Connection</th></tr>
+    <tr><td>Black</td><td>Cam Input</td></tr>
+    <tr><td>Blue</td><td>GPS antenna</td></tr>
+    <tr><td>Dark purple (×2)</td><td>4G LTE antennas</td></tr>
+    <tr><td>Light purple</td><td>SPDIF / optical output</td></tr>
+    <tr><td>Green</td><td>DVR</td></tr>
+    <tr><td>Salmon</td><td>GM 8-pin USB</td></tr>
+    <tr><td>White</td><td>10-pin USB</td></tr>
+    <tr><td>Yellow</td><td>RCA audio output</td></tr>
+    <tr><td>Gray</td><td>AUX in</td></tr>
+    <tr><td>—</td><td>IOB main power, Wi-Fi antenna, radio antenna, SIM slot</td></tr>
+  </table></div>
+
+  <div class="card">
+    <h3>XL specs (2014–18 Silverado version)</h3>
+    <ul>
+      <li>Android 11, 8 GB RAM / 128 GB storage, 15.6" 1920×1080 IPS</li>
+      <li>Dual-band Wi-Fi (2.4 / 5 GHz), 4G LTE SIM slot, 3 USB</li>
+      <li>Wireless CarPlay; wireless or wired Android Auto</li>
+      <li>Built-in amp: 4×25 W RMS (4×50 W max); 16-band EQ, time delay, 3-way crossover</li>
+      <li>4 V front, rear and sub preamp outputs; SPDIF/optical output</li>
+      <li>Operating voltage 9–16 V</li>
+    </ul>
+  </div>
+
+  <h2>Section 4: Configuration &amp; reassembly</h2><div class="vid" data-vid="5" data-title="Screen capture: Car Model AC &amp; CarPlay AutoBoot" data-type="Screen capture" data-len="90 sec" data-pri="Medium" data-desc="Screen recording of Settings → System → Setting Guide → Car Model AC, then CarAuto → Allow AutoBoot and Bluetooth pairing.">
+  <div class="vid-screen"><span class="vid-play">&#9654;</span><span class="vid-badge">VIDEO 05 · Medium priority</span></div>
+  <div class="vid-meta"><b>Screen capture: Car Model AC & CarPlay AutoBoot</b><p>Screen recording of Settings → System → Setting Guide → Car Model AC, then CarAuto → Allow AutoBoot and Bluetooth pairing.</p><span class="tag">Screen capture</span><span class="tag">~90 sec</span></div>
+</div>
+  <ol class="steps">
+    <li><b>Audio and SWC.</b> Open the Radio app and check sound from every speaker. Test volume and seek: a single tap cycles presets, press-and-hold seeks stations.</li>
+    <li><b>Climate profile.</b> Swipe up on the home screen, then go to the Car Model AC menu (below). Choose <b>Auto</b> for automatic climate or <b>Manual</b> for manual climate, then <b>Save</b>. The unit reboots to lock in the profile. Climate controls won't work right until this is set.</li>
+    <li><b>Wireless CarPlay / Android Auto.</b> Open <b>CarAuto</b>, tap the gear, and turn on <b>Allow AutoBoot</b>. Pair the phone over Bluetooth to the radio's ID (e.g., BT-645F) and accept the pairing and contacts prompts. <b>Wi-Fi must be on</b> on both the radio and the phone. Projection then launches automatically. Android Auto also works wired; CarPlay is wireless.</li>
+    <li><b>Side trim wings.</b> Pop the heated/cooled seat button modules out of the factory trim. Move the six metal clips to the new silver side wings, snap the seat modules in, plug them in, and press the wings on until flush.</li>
+  </ol>
+  <div class="path">Settings → System → Setting Guide → Car Model AC</div>
+
+  <h2>Settings to know</h2>
+  <ul>
+    <li><b>With External AMP</b> (Audio Settings): lowers output for use with a factory amp. Not always needed; try it if a factory-amp truck sounds off.</li>
+    <li><b>Upgrade</b> (System Settings): update software on a home or shop Wi-Fi network, not a phone hotspot.</li>
+    <li><b>Wheel settings</b>: not used on this unit.</li>
+    <li><b>Factory Reset</b>: don't use unless LinksWell tech support tells you to.</li>
+  </ul>
+  <div class="callout info"><b>LinksWell tech support:</b> 909-375-0633 · info@linkswellinc.com · linkswellinc.com</div>
+
+  <h2>Troubleshooting: Silverado / Sierra 2014–18</h2>
+  <p>Plus the all-vehicle issues in the bay quick reference (antennas, slow startup).</p>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>No factory camera</td><td>HMI adapter not installed, or video lead not on Factory Cam In</td><td>Check "To HMI Connect" at the gray HMI plug; mate video lead to Factory Cam In</td></tr>
+    <tr><td>Bose audio problems</td><td>Bose Retention Module not connected</td><td>Connect the factory speaker harness to the Bose Retention Module</td></tr>
+    <tr><td>System or bus issues after CD removal</td><td>CD jumper bypass missing</td><td>Plug the flat CD jumper bypass into the factory CD plug</td></tr>
+    <tr><td>Steering wheel buttons dead</td><td>SWC T-harness or SWC lead not connected</td><td>Check the T-harness at the column and the SWC lead on the radio</td></tr>
+    <tr><td>Wireless CarPlay/AA won't auto-launch</td><td>Allow AutoBoot off</td><td>CarAuto → gear → Allow AutoBoot</td></tr>
+    <tr><td>Wireless CarPlay/AA won't connect</td><td>Phone not paired over Bluetooth, or Wi-Fi off on radio or phone</td><td>Pair Bluetooth first; turn Wi-Fi on for both</td></tr>
+  </table></div>
+
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">Which color plug on the back of the XL is the camera input?</p>
+    <button class="opt">Green</button>
+    <button class="opt">Black</button>
+    <button class="opt">Blue</button>
+    <div class="fb">Black is Cam Input. Green is DVR and blue is GPS.</div>
+  </div>
+  <div class="kc" data-answer="2">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">On a 2016 Silverado, where do you connect the factory camera?</p>
+    <button class="opt">The 54-pin connector behind the screen</button>
+    <button class="opt">The 12-pin plug on the CD player</button>
+    <button class="opt">The gray plug on the HMI module behind the glove box</button>
+    <div class="fb">Unplug the gray camera plug at the HMI module and insert the "To HMI Connect" adapter. Mate its video lead to Factory Cam In.</div>
+  </div>
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">The Sierra has dual-zone automatic climate. Which Car Model AC option?</p>
+    <button class="opt">Manual AC</button>
+    <button class="opt">Auto AC</button>
+    <button class="opt">High</button>
+    <div class="fb">On GM trucks, Auto AC is dual-zone automatic and Manual AC is single-zone. Low/High is the Ford setting.</div>
+  </div>
+  <div class="kc" data-answer="0">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">You've removed the factory CD player. What goes on its plug?</p>
+    <button class="opt">The included flat CD jumper bypass harness</button>
+    <button class="opt">Nothing; tape it off</button>
+    <button class="opt">The Bose Retention Module</button>
+    <div class="fb">The jumper keeps the vehicle's system bus continuous with the CD player gone.</div>
+  </div>
+</section>
+
+<!-- ============ GM 2019-23 ============ -->
+<section class="page" data-title="5 · Silverado / Sierra 2019–23">
+  <p class="eyebrow">Module 5 · GM</p>
+  <h1>XL install: 2019–2023 Silverado / Sierra (T1XX)</h1>
+  <p class="lead">The biggest job in the course. The T1XX splits the radio into a center display and a separate receiver behind the passenger kick panel, and Bose trucks need the factory amp replaced.</p>
+
+  <div class="grid">
+    <div class="card"><span class="tag blue">Applies to</span><p>2019–2023 Silverado and Sierra 1500/2500/3500 (T1XX chassis).</p></div>
+    <div class="card"><span class="tag blue">Labor</span><p>About 3–4 hours, including the Bose amp bypass and fiber routing.</p></div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h3>Tools</h3>
+    <ul>
+      <li>7 mm socket, ratchet and 6" extension</li>
+      <li>10 mm socket with right-angle swivel adapter</li>
+      <li>T15 Torx driver</li>
+      <li>Nylon trim tools and a panel fastener tool</li>
+      <li><b>Right-angle pick set</b>: needed for GM secondary connector locks</li>
+      <li>Zip ties and TESA cloth tape</li>
+    </ul>
+  </div>
+
+  <h2>Identify the radio and audio before you start</h2>
+  <div class="tbl"><table>
+    <tr><th>Factory radio</th><th>What it means</th></tr>
+    <tr><td>IOS / IOT (high tier)</td><td>AHD-only backup camera; fiber/digital audio interfaces</td></tr>
+    <tr><td>IUR (base/mid tier)</td><td>Supports CVBS or AHD camera signals</td></tr>
+  </table></div>
+  <div class="callout warn">
+    <b>Bose 7-channel amplified system?</b> It needs the LinksWell DSP Amp Delete Kit, and the factory amp behind the rear seat gets replaced. Confirm the kit is on hand before booking the job.
+  </div>
+
+  <div class="callout info"><b>Install video:</b> Watch the LinksWell install video for this vehicle at <a href="https://www.linkswellinc.com/support/" target="_blank" rel="noopener">linkswellinc.com/support</a> before your first install.</div>
+  <h2>Phase 1: Dash &amp; console</h2>
+  <ol class="steps">
+    <li><b>Console side panels.</b> Unclip the lower console trim. On the passenger side, slide the panel rearward at an angle before pulling, or you'll shear the sliding retention tab.</li>
+    <li><b>Console tray.</b> Lift out the tray insert and disconnect the <b>key fob antenna</b> harness underneath. It must be reconnected later.</li>
+    <li><b>Center stack trim.</b> Hook under the lower horizontal trim strip with a right-angle pick to release its 5 clips. Unclip the screen bezel and remove the six T15 screws holding the screen frame.</li>
+    <li><b>Display out.</b> Pull the screen forward and disconnect the display connectors, HVAC plug and lower switch bank.</li>
+    <li><b>Bench transfer.</b> Remove four T15 screws and move the aux switches, USB hubs, trailer brake module, 12V outlets and vents into the LinksWell bezel.</li>
+  </ol>
+
+  <h2>Phase 2: Kick-panel receiver swap</h2><ol class="steps">
+    <li><b>Access.</b> Remove the lower glove box fasteners (7 mm and T15) and the fuse box cover.</li>
+    <li><b>Factory receiver out.</b> Use the right-angle 10 mm to remove the two bracket nuts in the kick-panel cavity. Release the locking tabs with a pick and slide the receiver down out of its carriage.</li>
+    <li><b>Prep the LinksWell receiver.</b> Attach the vehicle-specific side brackets (IOS/IOT profile).</li>
+    <li><b>Antennas.</b> Lay the cellular, GPS and dual Wi-Fi antennas flat on top of the HVAC ducting behind the glove box.</li>
+    <li><b>Interconnects.</b> Pass the three main looms (2 display data cables, 1 GM climate extension) from the kick panel up to the center dash.</li>
+    <li><b>Connect and install.</b> Plug in main power, AM/FM adapter, chime speaker, AHD camera converter and antennas. Slide the receiver into the carriage until the side clips lock.</li>
+  </ol>
+
+  <h2>Phase 3: Bose amp bypass (if equipped)</h2><ol class="steps">
+    <li><b>Rear seat out.</b> Fold up the rear seat cushion and remove four 10 mm seat frame bolts. Unhook the 3 top latches with a pick and remove the backrest.</li>
+    <li><b>Factory amp out.</b> Unbolt the Bose 7-channel amp from the rear cabin wall (10 mm).</li>
+    <li><b>DSP amp in.</b> Mount the LinksWell 7-channel DSP amp to its plate and bolt it to the factory studs. Plug the factory Bose connector into the LinksWell bypass T-harness.</li>
+    <li><b>Optical and remote.</b> Connect the 5 m right-angle TOSLink optical cable and 5 m bass remote cable. Route both under the passenger door sill carpet to the kick panel.</li>
+    <li><b>Turn-on switch.</b> Set the amp's turn-on toggle to <b>Remote In</b>, not Signal Sense.</li>
+  </ol>
+
+  <h2>Phase 4: Mount, test &amp; configure</h2><ol class="steps">
+    <li><b>Mount the display.</b> Attach the top support brackets with the factory T15 screws. Connect the data interconnects and HVAC plug, align the bezel and secure it.</li>
+    <li><b>Backup camera.</b> Key ON, shift to Reverse. Black screen or "No Signal"? Set Rear Camera Type to <b>1080P</b> and the rear frame rate to <b>AHD 30 FPS</b>.</li>
+    <li><b>Climate.</b> Open Car Model AC through Factory Settings (path below). Choose <b>Auto AC</b> for dual-zone automatic or <b>Manual AC</b> for single-zone, then tap OK to reboot.</li>
+    <li><b>Wireless CarPlay / Android Auto.</b> In CarAuto, tap the gear and enable <b>Allow AutoBoot</b>. Pair the phone to the radio's ID (e.g., 645F) under Settings → Bluetooth → Pair New Device.</li>
+  </ol>
+  <div class="path">Settings → Display → Rear Camera Type → 1080P</div>
+  <div class="path">Settings → System → Factory Settings (passcode 1660) → Car Model AC</div>
+
+  <h2>2014–18 vs. 2019–23 at a glance</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>2014–2018</th><th>2019–2023 (T1XX)</th></tr>
+    <tr><td>Radio layout</td><td>Screen + CD player in the dash</td><td>Display in dash; receiver behind passenger kick panel</td></tr>
+    <tr><td>Bose</td><td>Bose Retention Module in the dash</td><td>Replace factory amp behind rear seat with LinksWell DSP amp</td></tr>
+    <tr><td>Camera</td><td>"To HMI Connect" at the HMI module</td><td>AHD converter at the receiver; set 1080P / AHD 30 FPS</td></tr>
+    <tr><td>Antennas</td><td>On dash structure under top windshield panel</td><td>On HVAC ducting behind the glove box</td></tr>
+    <tr><td>Climate menu</td><td>Setting Guide → Car Model AC</td><td>Factory Settings (1660) → Car Model AC</td></tr>
+    <tr><td>Labor</td><td>—</td><td>About 3–4 hours</td></tr>
+  </table></div>
+
+  <h2>Troubleshooting: Silverado / Sierra 2019–23</h2>
+  <p>Plus the all-vehicle issues in the bay quick reference (antennas, slow startup).</p>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>No reverse video / "No Signal"</td><td>Wrong camera format</td><td>Settings → Display → Rear Camera Type: try 1080P / AHD 30 FPS; check AHD converter at the kick panel</td></tr>
+    <tr><td>No turn signal or door chimes</td><td>Chime speaker unplugged or misrouted</td><td>Plug the 2-pin chime speaker into the receiver loom; keep it clear of metal brackets</td></tr>
+    <tr><td>"Key Fob Not Detected"</td><td>Console key fob antenna unplugged</td><td>Reconnect the harness under the center console tray</td></tr>
+    <tr><td>DSP amp no power LED</td><td>Turn-on switch on Signal Sense</td><td>Slide it to Remote In; red LED should light with key on</td></tr>
+    <tr><td>HVAC temp/fan dead</td><td>Wrong Car Model AC profile</td><td>Factory Settings (1660): switch Auto AC / Manual AC, tap OK to reboot</td></tr>
+    <tr><td>Wireless CarPlay/AA won't auto-launch</td><td>Allow AutoBoot off</td><td>CarAuto → gear → Allow AutoBoot</td></tr>
+  </table></div>
+
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">Where is the factory receiver module on a 2021 Silverado?</p>
+    <button class="opt">Behind the center screen</button>
+    <button class="opt">Behind the passenger kick panel</button>
+    <button class="opt">Under the rear seat</button>
+    <div class="fb">T1XX trucks put the receiver/tuner behind the passenger kick panel, separate from the display.</div>
+  </div>
+  <div class="kc" data-answer="2">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">The new DSP amp has no power LED with the key on. What's the first thing to check?</p>
+    <button class="opt">The Wi-Fi antenna</button>
+    <button class="opt">The Car Model AC setting</button>
+    <button class="opt">The amp's turn-on switch: set it to Remote In</button>
+    <div class="fb">If it's on Signal Sense, slide it to Remote In and confirm the red LED lights with ignition on.</div>
+  </div>
+  <div class="kc" data-answer="0">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">After the install, the truck shows "Key Fob Not Detected." Likely cause?</p>
+    <button class="opt">The key fob antenna under the console tray wasn't reconnected</button>
+    <button class="opt">The chime speaker is unplugged</button>
+    <button class="opt">The camera is set to 1080P</button>
+    <div class="fb">The fob antenna harness under the center console tray gets disconnected in Phase 1. Reconnect it.</div>
+  </div>
+</section>
+
+<!-- ============ FORD AUDIT ============ -->
+<section class="page" data-title="6 · Ford F-150: pre-install audit">
+  <p class="eyebrow">Module 6 · Ford</p>
+  <h1>Ford F-150: pre-install audit</h1>
+  <p class="lead">Most comebacks start with the wrong harness. Confirm the audio system and vehicle before you start disassembly.</p>
+
+  <div class="grid">
+    <div class="card"><span class="tag blue">Applies to</span><p>Ford F-150, with harness notes for 2022+ Super Duty. Covered across Modules 6–9.</p></div>
+    <div class="card"><span class="tag blue">Tools</span><p>7 mm socket/wrench and a plastic trim tool.</p></div>
+  </div>
+  <div style="height:14px"></div>
+
+  <div class="callout warn">
+    <b>The blue mini USB test.</b> Look at the back of the factory radio chassis. A <b>blue mini USB port</b> means the truck has a <b>Bang &amp; Olufsen (B&amp;O)</b> system and needs the LinksWell B&amp;O harness.
+  </div>
+
+  <div class="callout info"><b>Install video:</b> Watch the LinksWell install video for this vehicle at <a href="https://www.linkswellinc.com/support/" target="_blank" rel="noopener">linkswellinc.com/support</a> before your first install.</div>
+  <h2>Why it matters</h2><p>With a standard harness in a B&amp;O truck, the screen powers up and works normally, but audio only plays through the <b>tweeters</b>. The factory amp isn't being triggered correctly.</p>
+
+  <div class="tbl"><table>
+    <tr><th>Vehicle / audio</th><th>Harness to use</th></tr>
+    <tr><td>Standard audio</td><td>Standard LinksWell power harness</td></tr>
+    <tr><td>Sony premium audio</td><td>Standard harness — no special interface needed</td></tr>
+    <tr><td>B&amp;O (blue mini USB)</td><td>LinksWell B&amp;O harness</td></tr>
+    <tr><td>2022+ Super Duty</td><td>Super Duty power harness (smaller square plugs)</td></tr>
+    <tr><td>2022+ Super Duty with B&amp;O</td><td>2022+ Super Duty B&amp;O harness — not the standard Ford B&amp;O harness</td></tr>
+  </table></div>
+
+  <h2>What's in the box</h2>
+  <p>Standard vehicle kits are all-inclusive: CANbus modules, dash bezel/trim, and the main wiring harnesses. Special cases like B&amp;O and the touchscreen 360 retention module may need extra parts, so confirm them before the customer's appointment.</p>
+
+  <h2>Audit checklist</h2>
+  <div class="card check">
+    <label><input type="checkbox"> Confirm year, model and trim (note 2022+ Super Duty).</label>
+    <label><input type="checkbox"> Check audio: standard, Sony, or B&amp;O (blue mini USB on the chassis).</label>
+    <label><input type="checkbox"> Note factory screen size: 4" or 8".</label>
+    <label><input type="checkbox"> Check for a 360 camera, and whether it's button-cycled or touchscreen-activated.</label>
+    <label><input type="checkbox"> Note single- or dual-zone climate, heated/cooled seats, heated wheel.</label>
+    <label><input type="checkbox"> Confirm the correct harnesses and modules are in the kit.</label>
+  </div>
+
+  <div class="kc" data-answer="0">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">After install, the screen works but sound only comes from the tweeters. Most likely cause?</p>
+    <button class="opt">B&amp;O system wired with the standard harness</button>
+    <button class="opt">Wi-Fi antenna not connected</button>
+    <button class="opt">HVAC set to Low instead of High</button>
+    <div class="fb">That's the classic B&amp;O symptom. Check for the blue mini USB on the factory chassis and swap in the B&amp;O harness.</div>
+  </div>
+  <div class="kc" data-answer="2">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">A 2022 Super Duty has a blue mini USB on the radio chassis. Which harness?</p>
+    <button class="opt">Standard Ford harness</button>
+    <button class="opt">Standard Ford B&amp;O harness</button>
+    <button class="opt">2022+ Super Duty B&amp;O harness</button>
+    <div class="fb">2022+ Super Duty uses different square power plugs, so it needs its own B&amp;O harness.</div>
+  </div>
+</section>
+
+<!-- ============ FORD DISASSEMBLY ============ -->
+<section class="page" data-title="7 · Ford F-150: disassembly">
+  <p class="eyebrow">Module 7 · Ford</p>
+  <h1>Ford F-150: dash disassembly</h1>
+  <p class="lead">XL install sequence. Tools: 7 mm socket/wrench and a plastic trim tool.</p>
+
+  <ol class="steps">
+    <li><b>Top dash tray.</b> Pop the center speaker grille (if equipped) to reach two 7 mm screws. Remove them and unclip the tray.</li>
+    <li><b>AC bezel.</b> Remove the two 7 mm screws behind the tray and unclip the AC control bezel.</li>
+    <li><b>Transfer clips.</b> Move every orange metal clip from the factory bezel to the new LinksWell bezel.</li>
+    <li><b>Screen and chassis.</b> Remove the six 7 mm screws holding the factory screen and the four holding the lower radio chassis/CD player.</li>
+    <li><b>Relocate switches.</b> The hazard and traction switches move from the top of the bezel to the bottom, where the CD player was. Split the factory harness tape behind the dash to get enough slack, then pull the switch harness down.</li>
+  </ol>
+
+  <div class="callout warn">
+    <b>Before you put the factory chassis aside,</b> check it for the blue mini USB port if you haven't already.
+  </div>
+
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">On the XL install, where do the hazard and traction switches go?</p>
+    <button class="opt">They stay at the top of the bezel</button>
+    <button class="opt">Down to where the CD player was, after splitting the harness tape for slack</button>
+    <button class="opt">They're removed and not reused</button>
+    <div class="fb">They move to the bottom opening. Split the factory tape behind the dash to extend the harness.</div>
+  </div>
+  <div class="kc" data-answer="0">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">What has to move from the factory AC bezel to the LinksWell bezel?</p>
+    <button class="opt">The orange metal clips</button>
+    <button class="opt">The climate control knobs</button>
+    <button class="opt">The microphone</button>
+    <div class="fb">Transfer all the orange metal clips so the new bezel mounts securely.</div>
+  </div>
+</section>
+
+<!-- ============ FORD WIRING ============ -->
+<section class="page" data-title="8 · Ford F-150: wiring, cameras, antennas">
+  <p class="eyebrow">Module 8 · Ford</p>
+  <h1>Ford F-150: wiring, cameras &amp; antennas</h1>
+
+  <h2>Factory camera connection</h2>
+  <div class="tbl"><table>
+    <tr><th>Factory screen</th><th>Use this connector</th></tr>
+    <tr><td>Pre-2019, 4" screen</td><td>Small 12-pin plug that went directly into the screen — not the module behind it</td></tr>
+    <tr><td>8" screen</td><td>Large 54-pin screen connector</td></tr>
+  </table></div>
+
+  <h2>360° cameras: do you need the retention module?</h2><div class="grid">
+    <div class="card"><span class="tag">No module</span><h3>Button-cycled 360</h3><p>Pressing the dash button repeatedly cycles through views and then turns off. Works natively.</p></div>
+    <div class="card"><span class="tag blue">Module required</span><h3>Touchscreen-activated 360</h3><p>Pressing the button brings up touch icons on the factory screen to pick a view. Needs the LinksWell 360 retention module.</p></div>
+  </div>
+
+  <h2>Installing the 360 retention module</h2>
+  <ol class="steps">
+    <li>Unplug the large 54-pin connector from the back of the factory screen.</li>
+    <li>Plug the small camera power jumper from the main LinksWell power harness into the retention module.</li>
+    <li>Connect the retention module between the factory 54-pin harness and the LinksWell main harness.</li>
+    <li>Run the camera RCA output into the <b>Factory Camera Input</b> port on the back of the radio.</li>
+    <li>In software, choose <b>With Touch 360</b> as the sub-model and turn <b>360</b> on (Module 9).</li>
+  </ol>
+
+  <h2>Antennas</h2><div class="tbl"><table>
+    <tr><th>Antenna</th><th>Where</th><th>Notes</th></tr>
+    <tr><td>AM/FM</td><td>Thick orange coax at the lower radio chassis location</td><td>—</td></tr>
+    <tr><td>GPS</td><td>On top of the air vent area, under the top plastic dash panel</td><td>Plastic is fine; keep it away from metal</td></tr>
+    <tr><td>Wi-Fi</td><td>Same: above the vent, under plastic</td><td><b>Always install.</b> Wireless CarPlay/AA needs it, even if the customer won't use the hotspot</td></tr>
+    <tr><td>4G LTE</td><td>High up: A-pillar or upper windshield area</td><td>Best cell signal; away from metal. SIM adapter included for smaller SIMs</td></tr>
+  </table></div>
+
+  <h2>Microphone &amp; USB</h2>
+  <ul>
+    <li><b>Microphone:</b> the factory mic isn't retained. Run the included mic to the driver-side A-pillar.</li>
+    <li><b>Airbag safety:</b> zip-tie the mic wire along the factory loom beneath the side-curtain airbag. Never route across or tie over the airbag.</li>
+    <li><b>Factory USB:</b> works for USB media, but not CarPlay or Android Auto. Tell the customer to use wireless projection.</li>
+  </ul>
+
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">The 360 button cycles views on its own, then shuts off. What do you need?</p>
+    <button class="opt">The 360 retention module</button>
+    <button class="opt">Nothing extra — it works natively</button>
+    <button class="opt">The Multi-Cam interface</button>
+    <div class="fb">Button-cycled systems work without the module. Only touchscreen-activated 360 needs it.</div>
+  </div>
+  <div class="kc" data-answer="2">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">The customer says they'll never use in-car Wi-Fi. Should you install the Wi-Fi antenna?</p>
+    <button class="opt">No, skip it</button>
+    <button class="opt">Only if they have an LTE SIM</button>
+    <button class="opt">Yes — wireless CarPlay/Android Auto needs it</button>
+    <div class="fb">The Wi-Fi antenna is required for reliable wireless CarPlay and Android Auto.</div>
+  </div>
+</section>
+
+<!-- ============ FORD SOFTWARE ============ -->
+<section class="page" data-title="9 · Ford F-150: software &amp; hand-off">
+  <p class="eyebrow">Module 9 · Ford</p>
+  <h1>Ford F-150: software setup &amp; hand-off</h1>
+
+  <h2>Program HVAC</h2>
+  <div class="path">Settings → System (top right) → Settings Guide → Car Model AC</div>
+  <p>GM trucks use different climate options (Auto AC / Manual AC). See Modules 4 and 5.</p>
+  <ol class="steps">
+    <li>Select the vehicle model (e.g., <b>Ford F-150</b>).</li>
+    <li>Choose the climate type: <b>Low</b> = single-zone, <b>High</b> = dual-zone (separate driver/passenger temps).</li>
+    <li>Choose the sub-model: <b>Other</b> for most trucks, <b>With Touch 360</b> if the retention module is installed, <b>2013</b> for older F-150s.</li>
+    <li>Select <b>Current</b> and tap <b>OK</b>. The unit saves and reboots on its own.</li>
+  </ol>
+
+  <h2>Turn on comfort features</h2>
+  <div class="path">Settings → System → Settings Guide → Seat and Wheel</div>
+  <p>After the reboot, toggle on whatever the truck has: heated seats, cooled seats, heated steering wheel. Their icons then show on the climate screen.</p>
+
+  <h2>Camera switches</h2>
+  <div class="path">Settings → System → Settings Guide → Camera Switch</div>
+  <div class="callout warn">
+    <b>Never turn on both 360 and Multi.</b> The unit can't tell which signal to decode, and the cameras stop working. With the 360 retention module: 360 on, Multi off.
+  </div>
+
+  <h2>Customer hand-off (all vehicles): Quick Boot fail-safe</h2><p>To start almost instantly, the unit sleeps instead of fully shutting down. To keep memory from clogging up and crashing, it does a full cold reboot every <b>15–20 ignition cycles</b>.</p>
+  <div class="callout ok">
+    <b>Say it like this:</b> "Most of the time the screen comes on right away. Every 15 to 20 starts, it'll take a little longer because it's doing a full restart to clear its memory. That's normal, not a problem."
+  </div>
+  <p>Also cover: wireless CarPlay/AA setup, that the factory USB ports are for media only, and warranty length (2 years XL/Gen 6, 1 year LITE 2).</p>
+
+  <h2>Ford vs. GM at a glance</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>Ford F-150</th><th>Silverado / Sierra 2014–18</th><th>Silverado / Sierra 2019–23</th></tr>
+    <tr><td>Premium audio</td><td>B&amp;O: B&amp;O harness. Sony: standard harness</td><td>Bose: Bose Retention Module</td><td>Bose 7-ch: LinksWell DSP amp replaces factory amp</td></tr>
+    <tr><td>Factory camera</td><td>12-pin (4") or 54-pin (8") screen plug</td><td>"To HMI Connect" at the HMI module</td><td>AHD converter; set 1080P / AHD 30 FPS</td></tr>
+    <tr><td>Climate options</td><td>Low (single) / High (dual)</td><td>Manual AC / Auto AC</td><td>Manual AC / Auto AC</td></tr>
+    <tr><td>Climate menu</td><td>Settings Guide → Car Model AC</td><td>Setting Guide → Car Model AC</td><td>Factory Settings (1660) → Car Model AC</td></tr>
+    <tr><td>CD player</td><td>Removed; switches relocate into its spot</td><td>Removed; CD jumper bypass required</td><td>—</td></tr>
+    <tr><td>Fasteners</td><td>7 mm</td><td>7 mm + T15 Torx</td><td>7 mm, right-angle 10 mm, T15 Torx</td></tr>
+  </table></div>
+
+  <h2>Troubleshooting: Ford F-150</h2>
+  <p>Plus the all-vehicle issues in the bay quick reference (antennas, slow startup).</p>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>Audio only from tweeters</td><td>B&amp;O truck on the standard harness</td><td>Confirm blue mini USB; install the B&amp;O harness (2022+ Super Duty: SD B&amp;O harness)</td></tr>
+    <tr><td>No camera picture</td><td>360 and Multi both on</td><td>Camera Switch: turn one off</td></tr>
+    <tr><td>Touch 360 views won't select</td><td>Retention module missing, unpowered, or wrong sub-model</td><td>Check the power jumper and 54-pin connection; set sub-model to With Touch 360</td></tr>
+    <tr><td>Factory camera missing (4" truck)</td><td>Connected to the module, not the screen plug</td><td>Use the small 12-pin plug that went into the screen</td></tr>
+    <tr><td>Climate controls wrong</td><td>Wrong climate type or sub-model</td><td>Car Model AC: Low/High, correct sub-model, Current → OK</td></tr>
+    <tr><td>No heated/cooled seat icons</td><td>Seat and Wheel features not enabled</td><td>Settings Guide → Seat and Wheel</td></tr>
+    <tr><td>CarPlay won't work on factory USB</td><td>Factory hubs don't support projection</td><td>Use wireless CarPlay/AA</td></tr>
+  </table></div>
+
+  <div class="kc" data-answer="1">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">The truck has separate driver and passenger temperature controls. Which climate type?</p>
+    <button class="opt">Low</button>
+    <button class="opt">High</button>
+    <button class="opt">Other</button>
+    <div class="fb">High is dual-zone. Low is single-zone.</div>
+  </div>
+  <div class="kc" data-answer="0">
+    <p class="eyebrow">Knowledge check</p>
+    <p class="q">Cameras stopped working after setup. 360 and Multi are both on. What's the fix?</p>
+    <button class="opt">Turn Multi off and leave 360 on</button>
+    <button class="opt">Reinstall the Wi-Fi antenna</button>
+    <button class="opt">Change the climate type to Low</button>
+    <div class="fb">Only one can be active. With a 360 setup, keep 360 on and Multi off.</div>
+  </div>
+</section>
+
+<!-- ============ TROUBLESHOOTING ============ -->
+<section class="page" data-title="Bay quick reference">
+  <p class="eyebrow">Reference</p>
+  <h1>Install-bay troubleshooting</h1>
+  <p class="lead">Every troubleshooting table in one place, by vehicle.</p>
+  <div class="callout info"><b>Still stuck?</b> LinksWell tech support: 909-375-0633 · info@linkswellinc.com</div>
+
+  <h2>All vehicles</h2>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>Wireless CarPlay/AA drops out</td><td>Wi-Fi antenna missing or near metal</td><td>Mount it under plastic, away from metal</td></tr>
+    <tr><td>No GPS lock</td><td>GPS antenna under metal</td><td>Move it under plastic, away from metal</td></tr>
+    <tr><td>Weak LTE</td><td>Antenna mounted low or near metal</td><td>Relocate higher and clear of metal</td></tr>
+    <tr><td>Occasional slow startup</td><td>Normal Quick Boot cold reboot</td><td>No fix needed; explain to the customer</td></tr>
+  </table></div>
+
+  <h2>Silverado / Sierra 2014–18</h2>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>No factory camera</td><td>HMI adapter not installed, or video lead not on Factory Cam In</td><td>Check "To HMI Connect" at the gray HMI plug; mate video lead to Factory Cam In</td></tr>
+    <tr><td>Bose audio problems</td><td>Bose Retention Module not connected</td><td>Connect the factory speaker harness to the Bose Retention Module</td></tr>
+    <tr><td>System or bus issues after CD removal</td><td>CD jumper bypass missing</td><td>Plug the flat CD jumper bypass into the factory CD plug</td></tr>
+    <tr><td>Steering wheel buttons dead</td><td>SWC T-harness or SWC lead not connected</td><td>Check the T-harness at the column and the SWC lead on the radio</td></tr>
+    <tr><td>Wireless CarPlay/AA won't auto-launch</td><td>Allow AutoBoot off</td><td>CarAuto → gear → Allow AutoBoot</td></tr>
+    <tr><td>Wireless CarPlay/AA won't connect</td><td>Phone not paired over Bluetooth, or Wi-Fi off on radio or phone</td><td>Pair Bluetooth first; turn Wi-Fi on for both</td></tr>
+  </table></div>
+
+  <h2>Silverado / Sierra 2019–23</h2>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>No reverse video / "No Signal"</td><td>Wrong camera format</td><td>Settings → Display → Rear Camera Type: try 1080P / AHD 30 FPS; check AHD converter at the kick panel</td></tr>
+    <tr><td>No turn signal or door chimes</td><td>Chime speaker unplugged or misrouted</td><td>Plug the 2-pin chime speaker into the receiver loom; keep it clear of metal brackets</td></tr>
+    <tr><td>"Key Fob Not Detected"</td><td>Console key fob antenna unplugged</td><td>Reconnect the harness under the center console tray</td></tr>
+    <tr><td>DSP amp no power LED</td><td>Turn-on switch on Signal Sense</td><td>Slide it to Remote In; red LED should light with key on</td></tr>
+    <tr><td>HVAC temp/fan dead</td><td>Wrong Car Model AC profile</td><td>Factory Settings (1660): switch Auto AC / Manual AC, tap OK to reboot</td></tr>
+    <tr><td>Wireless CarPlay/AA won't auto-launch</td><td>Allow AutoBoot off</td><td>CarAuto → gear → Allow AutoBoot</td></tr>
+  </table></div>
+
+  <h2>Ford F-150</h2>
+  <div class="tbl"><table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>Audio only from tweeters</td><td>B&amp;O truck on the standard harness</td><td>Confirm blue mini USB; install the B&amp;O harness (2022+ Super Duty: SD B&amp;O harness)</td></tr>
+    <tr><td>No camera picture</td><td>360 and Multi both on</td><td>Camera Switch: turn one off</td></tr>
+    <tr><td>Touch 360 views won't select</td><td>Retention module missing, unpowered, or wrong sub-model</td><td>Check the power jumper and 54-pin connection; set sub-model to With Touch 360</td></tr>
+    <tr><td>Factory camera missing (4" truck)</td><td>Connected to the module, not the screen plug</td><td>Use the small 12-pin plug that went into the screen</td></tr>
+    <tr><td>Climate controls wrong</td><td>Wrong climate type or sub-model</td><td>Car Model AC: Low/High, correct sub-model, Current → OK</td></tr>
+    <tr><td>No heated/cooled seat icons</td><td>Seat and Wheel features not enabled</td><td>Settings Guide → Seat and Wheel</td></tr>
+    <tr><td>CarPlay won't work on factory USB</td><td>Factory hubs don't support projection</td><td>Use wireless CarPlay/AA</td></tr>
+  </table></div>
+</section>
+
+<section class="page" data-title="Video plan (for video team)">
+  <p class="eyebrow">Mockup only · remove before publishing</p>
+  <h1>Video shot list</h1>
+  <p class="lead">Every orange box in the course is a planned video. This list builds itself from those placeholders.</p>
+  <div class="grid" id="vidStats"></div>
+  <div style="height:12px"></div>
+  <div class="tbl"><table class="shot"><thead><tr><th>#</th><th>Video</th><th>Module</th><th>Type</th><th>Length</th><th>Priority</th></tr></thead><tbody id="shotBody"></tbody></table></div>
+  <div class="callout info"><b>Scope:</b> Filming is limited to an XL product overview (Module 1) and the 2014–2018 Silverado / Sierra XL install (Module 4). The 2019–23 GM and Ford modules link to LinksWell's support-site install videos instead.</div>
+  <div class="callout info"><b>Open questions for the video team:</b> Hosting (Brightcove vs. in-package MP4), and whether the screen-capture clip can be recorded on the same shoot.</div>
+</section>
+<!-- ============ FINAL ASSESSMENT ============ -->
+<section class="page" data-title="Final assessment">
+  <p class="eyebrow">Final assessment</p>
+  <h1>Check your knowledge</h1>
+  <p class="lead">25 questions. You need 80% to pass.</p>
+  <div id="quiz"></div>
+  <div id="quizActions"><button class="btn" id="submitQuiz">Submit answers</button></div>
+  <div id="result"></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="fbar">
+    <button class="btn ghost" id="back">Back</button>
+    <div class="count" id="count"></div>
+    <button class="btn" id="next">Next</button>
+  </div>
+  <div class="mode" id="mode"></div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- SCORM 1.2 ---------- */
+  function findAPI(win){
+    var n=0;
+    try{ while(!win.API && win.parent && win.parent!==win && n<10){ n++; win=win.parent; } }catch(e){ return null; }
+    return win.API || null;
+  }
+  var api = findAPI(window);
+  if(!api && window.opener){ try{ api = findAPI(window.opener); }catch(e){} }
+  var lms = !!api, finished=false, passed=false;
+  function get(k){ return lms ? api.LMSGetValue(k) : ""; }
+  function set(k,v){ if(lms) api.LMSSetValue(k,String(v)); }
+  function commit(){ if(lms) api.LMSCommit(""); }
+  function finish(){
+    if(!lms || finished) return; finished=true;
+    set("cmi.core.exit", passed ? "" : "suspend");
+    commit(); api.LMSFinish("");
+  }
+  if(lms){
+    api.LMSInitialize("");
+    var st = get("cmi.core.lesson_status");
+    if(st==="not attempted" || st==="") set("cmi.core.lesson_status","incomplete");
+    passed = (st==="passed");
+    commit();
+  }
+  document.getElementById("mode").textContent = lms ? "" : "Preview mode — progress isn't being reported to an LMS";
+  window.addEventListener("beforeunload", finish);
+  window.addEventListener("pagehide", finish);
+
+  /* ---------- Navigation ---------- */
+  var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
+  var toc = document.getElementById("toc");
+  var seen = {}; var cur = 0;
+  try{ var sd = JSON.parse(get("cmi.suspend_data")||"{}"); (sd.seen||[]).forEach(function(i){seen[i]=1;}); }catch(e){}
+  var loc = parseInt(get("cmi.core.lesson_location"),10);
+  if(!isNaN(loc) && loc>=0 && loc<pages.length) cur = loc;
+
+  pages.forEach(function(p,i){
+    var b=document.createElement("button");
+    b.innerHTML='<span class="dot">'+(i+1)+'</span><span>'+p.dataset.title+'</span>';
+    b.onclick=function(){ show(i); toggleToc(false); };
+    toc.appendChild(b);
+  });
+  function toggleToc(force){
+    var open = typeof force==="boolean" ? force : !toc.classList.contains("open");
+    toc.classList.toggle("open",open);
+    document.getElementById("menuBtn").setAttribute("aria-expanded",open);
+  }
+  document.getElementById("menuBtn").onclick=function(){ toggleToc(); };
+
+  function show(i){
+    cur=i; seen[i]=1;
+    pages.forEach(function(p,j){ p.classList.toggle("active", j===i); });
+    Array.prototype.forEach.call(toc.children,function(b,j){
+      b.classList.toggle("cur", j===i); b.classList.toggle("seen", !!seen[j]);
+    });
+    document.getElementById("back").disabled = i===0;
+    var nx=document.getElementById("next"); nx.style.visibility = i===pages.length-1 ? "hidden":"visible";
+    document.getElementById("count").textContent = (i+1)+" of "+pages.length;
+    document.getElementById("prog").style.width = (Object.keys(seen).length/pages.length*100)+"%";
+    window.scrollTo(0,0);
+    set("cmi.core.lesson_location", i);
+    set("cmi.suspend_data", JSON.stringify({seen:Object.keys(seen).map(Number)}));
+    commit();
+  }
+  document.getElementById("back").onclick=function(){ if(cur>0) show(cur-1); };
+  document.getElementById("next").onclick=function(){ if(cur<pages.length-1) show(cur+1); };
+
+  /* ---------- Knowledge checks ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll(".kc"),function(kc){
+    var ans=+kc.dataset.answer, opts=kc.querySelectorAll(".opt"), fb=kc.querySelector(".fb"), base=fb.textContent;
+    Array.prototype.forEach.call(opts,function(o,i){
+      o.onclick=function(){
+        Array.prototype.forEach.call(opts,function(x){ x.classList.remove("right","wrong"); });
+        var ok = i===ans;
+        o.classList.add(ok?"right":"wrong");
+        if(!ok) opts[ans].classList.add("right");
+        fb.className="fb show "+(ok?"good":"miss");
+        fb.textContent=(ok?"Correct. ":"Not quite. ")+base;
+      };
+    });
+  });
+
+  /* ---------- Final assessment ---------- */
+  var Q=[
+    {q:"After install the screen works, but audio only plays through the tweeters. What's the cause?",o:["Wi-Fi antenna not installed","B&O system with a standard harness","Climate type set wrong","Factory mic disconnected"],a:1,w:"B&O trucks need the LinksWell B&O harness. A standard harness gives tweeter-only audio."},
+    {q:"How do you identify a B&O sound system?",o:["Orange coax at the chassis","A blue mini USB port on the back of the factory radio chassis","A 54-pin screen connector","B&O logo on the climate panel"],a:1,w:"A blue mini USB port on the factory radio chassis means B&O."},
+    {q:"Which harness does a 2022+ Super Duty with a blue mini USB port need?",o:["Standard Ford harness","Standard Ford B&O harness","2022+ Super Duty B&O harness","Sony harness"],a:2,w:"2022+ Super Duty uses square power plugs and needs its own B&O harness."},
+    {q:"Which premium audio system works with the standard LinksWell harness?",o:["Sony","Bang & Olufsen","Both","Neither"],a:0,w:"Sony doesn't need a special interface; B&O does."},
+    {q:"For a pre-2019 truck with a 4\" factory screen, where does the factory camera connect?",o:["The module behind the screen","The 54-pin connector","The small 12-pin plug that went into the screen","The Factory Camera Input via the USB hub"],a:2,w:"Use the small 12-pin plug that went directly into the screen."},
+    {q:"Which factory 360 system needs the LinksWell 360 retention module?",o:["Button-cycled 360","Touchscreen-activated 360","Both","Neither"],a:1,w:"Only touchscreen-activated 360 systems need the retention module."},
+    {q:"What happens if 360 and Multi are both turned on in Camera Switch?",o:["Both cameras show in split screen","The unit picks the 360 automatically","Camera function fails completely","Nothing; it's the recommended setting"],a:2,w:"The unit can't tell which signal to decode, so cameras stop working."},
+    {q:"Why must the Wi-Fi antenna always be installed?",o:["It's needed for AM/FM","It's needed for reliable wireless CarPlay/Android Auto","It powers the 360 module","It's only needed for the hotspot"],a:1,w:"Wireless CarPlay and Android Auto depend on the Wi-Fi antenna."},
+    {q:"Where do the GPS and Wi-Fi antennas go?",o:["Behind the glovebox metal frame","On top of the air vent area, under the top plastic dash panel","Inside the radio chassis","Under the driver's seat"],a:1,w:"Under plastic above the vents is fine. Keep them away from metal."},
+    {q:"Where's the best spot for the 4G LTE antenna?",o:["Down low near the floor","High up, like the A-pillar or upper windshield area","Inside the center console","Next to the factory amplifier"],a:1,w:"Mount it high and away from metal for the best cell signal."},
+    {q:"On a Ford F-150, which Car Model AC climate type is for dual-zone climate control?",o:["Low","High","Other","2013"],a:1,w:"High = dual-zone. Low = single-zone."},
+    {q:"Which sub-model do you pick when the 360 retention module is installed?",o:["Other","2013","With Touch 360","Current"],a:2,w:"With Touch 360 tells the unit the retention module is installed."},
+    {q:"A customer says the screen sometimes takes longer to start. What do you tell them?",o:["It's defective and should be replaced","It's the Quick Boot fail-safe: a full reboot every 15–20 ignition cycles","The battery is weak","The Wi-Fi antenna is loose"],a:1,w:"The fail-safe forces a cold reboot every 15–20 ignition cycles to clear memory. That's normal."},
+    {q:"A customer wants heavy off-road lighting and accessory control. Which unit should you avoid?",o:["XL","Gen 6","LITE 2","They're all equal"],a:2,w:"The LITE 2's lower processor tier isn't built for heavy accessory control. Recommend Gen 6 or XL."},
+    {q:"What do you do about the factory microphone?",o:["Reuse it with an adapter","It's not retained: run the included mic to the driver-side A-pillar","Mount the new mic in the center console","No mic is needed for CarPlay"],a:1,w:"The factory mic isn't retained. Route the included mic to the driver-side A-pillar."},
+    {q:"When routing the mic wire up the A-pillar, how do you handle the side-curtain airbag?",o:["Zip-tie the wire over the airbag module","Route it along the factory loom beneath the airbag, never across or over it","Remove the airbag connector during install","Tape the wire to the outside of the trim"],a:1,w:"Follow the factory loom beneath the side-curtain airbag. Never route across or tie over it."},
+    {q:"On a 2014–2018 Silverado/Sierra, where is the factory camera connection?",o:["54-pin plug behind the screen","Gray plug on the HMI module behind the glove box","On the CD player harness","At the steering column"],a:1,w:"Insert the \"To HMI Connect\" adapter at the gray HMI plug behind the glove box."},
+    {q:"What must go on the factory plug after removing a Silverado's CD player?",o:["Nothing","The Bose Retention Module","The flat CD jumper bypass harness","The SIM tray extension"],a:2,w:"The CD jumper bypass keeps the system bus continuous."},
+    {q:"A Sierra has factory Bose audio. What do you install?",o:["The Ford B&O harness","The Bose Retention Module, plus the OnStar chime speaker","Nothing extra","A Multi-Cam interface"],a:1,w:"Connect the factory speakers to the Bose Retention Module and plug in the 2-pin OnStar chime speaker."},
+    {q:"On a GM truck with dual-zone automatic climate, which Car Model AC option do you choose?",o:["Low","High","Manual AC","Auto AC"],a:3,w:"GM uses Auto AC (dual-zone automatic) and Manual AC (single-zone). Low/High is Ford."},
+    {q:"On a 2019–2023 Silverado/Sierra, where does the LinksWell receiver chassis install?",o:["Behind the center screen","In the passenger kick panel, in place of the factory receiver","Under the driver's seat","Behind the rear seat"],a:1,w:"T1XX trucks have a separate receiver behind the passenger kick panel; the LinksWell receiver replaces it there."},
+    {q:"A 2020 Sierra has the Bose 7-channel system. What's required?",o:["The Bose Retention Module in the dash","Nothing extra","The LinksWell DSP Amp Delete Kit, replacing the factory amp behind the rear seat","The Ford B&O harness"],a:2,w:"T1XX Bose trucks get the factory amp replaced with the LinksWell DSP amp and bypass T-harness."},
+    {q:"Which position should the DSP amp's turn-on switch be in?",o:["Signal Sense","Remote In","Off","Either works"],a:1,w:"Set it to Remote In. On Signal Sense, the amp may not power up."},
+    {q:"Reverse shows a black screen or \"No Signal\" on a 2019–23 GM truck. What do you check first?",o:["Wi-Fi antenna placement","Rear Camera Type set to 1080P with AHD 30 FPS frame rate","The CD jumper bypass","The SWC T-harness"],a:1,w:"Set the camera format under Settings → Display → Rear Camera Type, and confirm the AHD converter is seated."},
+    {q:"After a T1XX install the dash says \"Key Fob Not Detected.\" What was missed?",o:["The chime speaker","The key fob antenna harness under the center console tray","The GPS antenna","The TOSLink cable"],a:1,w:"It's disconnected when the console tray comes out in Phase 1 and must be reconnected."}
+  ];
+  var quiz=document.getElementById("quiz");
+  function renderQuiz(){
+    quiz.innerHTML="";
+    Q.forEach(function(item,i){
+      var d=document.createElement("div"); d.className="qitem"; d.id="q"+i;
+      var h='<div class="q">'+(i+1)+". "+item.q+'</div>';
+      item.o.forEach(function(op,j){
+        h+='<label><input type="radio" name="q'+i+'" value="'+j+'"><span>'+op.replace(/&/g,"&amp;")+'</span></label>';
+      });
+      d.innerHTML=h; quiz.appendChild(d);
+    });
+    document.getElementById("result").innerHTML="";
+    document.getElementById("quizActions").style.display="block";
+  }
+  renderQuiz();
+
+  document.getElementById("submitQuiz").onclick=function(){
+    var correct=0, missing=[];
+    Q.forEach(function(item,i){
+      var el=document.getElementById("q"+i); el.classList.remove("missed","unanswered");
+      var c=document.querySelector('input[name="q'+i+'"]:checked');
+      if(!c){ missing.push(i); el.classList.add("unanswered"); }
+    });
+    if(missing.length){
+      document.getElementById("q"+missing[0]).scrollIntoView({behavior:"smooth",block:"center"});
+      document.getElementById("result").innerHTML='<div class="callout warn"><b>'+missing.length+' unanswered.</b> Answer every question to submit.</div>';
+      return;
+    }
+    var review="";
+    Q.forEach(function(item,i){
+      var v=+document.querySelector('input[name="q'+i+'"]:checked').value;
+      if(v===item.a) correct++;
+      else{
+        document.getElementById("q"+i).classList.add("missed");
+        review+='<li><b>Q'+(i+1)+':</b> '+item.o[item.a].replace(/&/g,"&amp;")+'. '+item.w.replace(/&/g,"&amp;")+'</li>';
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('input[name="q'+i+'"]'),function(r){ r.disabled=true; });
+    });
+    var score=Math.round(correct/Q.length*100), pass=score>=80;
+    if(pass) passed=true;
+    set("cmi.core.score.min",0); set("cmi.core.score.max",100); set("cmi.core.score.raw",score);
+    set("cmi.core.lesson_status", pass?"passed":"failed");
+    commit();
+    document.getElementById("quizActions").style.display="none";
+    var r='<div class="card"><p class="eyebrow">'+(pass?"Passed":"Not passed yet")+'</p><div class="score">'+score+'%</div><p>'+correct+' of '+Q.length+' correct. '+(pass?"Nice work — you're cleared on the LinksWell T-Style install.":"You need 80% to pass. Review the questions below, then try again.")+'</p>';
+    if(review) r+='<h3>Review</h3><ul>'+review+'</ul>';
+    r+='<button class="btn'+(pass?' ghost':'')+'" id="retry">Retake assessment</button></div>';
+    var res=document.getElementById("result"); res.innerHTML=r;
+    res.scrollIntoView({behavior:"smooth",block:"start"});
+    document.getElementById("retry").onclick=function(){ renderQuiz(); window.scrollTo(0,0); };
+  };
+
+
+  /* ---------- Mockup: video plan ---------- */
+  (function(){
+    var rows="",hi=0,mins=0;
+    pages.forEach(function(p,pi){
+      Array.prototype.forEach.call(p.querySelectorAll(".vid"),function(v){
+        var d=v.dataset; if(d.pri==="High") hi++;
+        var m=d.len.match(/[\d.]+/g)||[0]; var val=+m[m.length-1]; mins+= /min/.test(d.len)?val:val/60;
+        rows+='<tr><td>'+("0"+d.vid).slice(-2)+'</td><td><b>'+d.title+'</b><br><span style="color:var(--muted);font-size:13px">'+d.desc+'</span></td><td><button type="button" class="goto" data-p="'+pi+'">'+p.dataset.title+'</button></td><td>'+d.type+'</td><td>'+d.len+'</td><td>'+d.pri+'</td></tr>';
+      });
+    });
+    document.getElementById("shotBody").innerHTML=rows;
+    var total=document.querySelectorAll(".vid").length;
+    document.getElementById("vidStats").innerHTML='<div class="card"><span class="tag blue">Videos</span><div class="score">'+total+'</div></div><div class="card"><span class="tag blue">High priority</span><div class="score">'+hi+'</div></div><div class="card"><span class="tag blue">Est. runtime</span><div class="score">~'+Math.round(mins)+' min</div></div>';
+    Array.prototype.forEach.call(document.querySelectorAll(".goto"),function(b){ b.addEventListener("click",function(){ show(+b.dataset.p); }); });
+    var vb=document.getElementById("vidBtn");
+    vb.addEventListener("click",function(){ var h=document.body.classList.toggle("hide-vid"); vb.textContent=h?"Show video spots":"Hide video spots"; });
+  })();
+  show(cur);
+})();
+</script>
+</body>
+</html>
